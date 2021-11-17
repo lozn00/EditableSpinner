@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="EditSpinner">
+        <attr name="spinner_value" format="string|reference" />
+        <attr name="spinner_gap" format="dimension|reference" />
+        <attr name="spinner_hint" format="string|reference" />
+        <attr name="spinner_bg" format="color|reference" />
+        <attr name="spinner_mode" format="enum">
+            <!-- Spinner options will be presented to the user as a dialog window. -->
+            <enum name="dropdown" value="1" />
+            <enum name="dialog" value="0" />
+            <!-- Spinner options will be presented to the user as an inline dropdown
+                 anchored to the spinner widget itself. -->
+        </attr>
+        <attr name="spinner_editable" format="boolean|reference" />
+        <attr name="spinner_rebuild_Id" format="boolean|reference" />
+        <attr name="spinner_item" format="string|reference" />
+    <!--    <attr name="shadow_shape"> emnum
+            <enum name="RECT" value="100"/>
+            <enum name="CIRCLE" value="101"/>
+            <enum name="ARC" value="110"/>
+        </attr>-->
+
+    </declare-styleable>
+
+</resources>
