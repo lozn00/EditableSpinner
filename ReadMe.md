@@ -1,3 +1,22 @@
+#添加依赖
+```groovy
+	allprojects {
+		repositories {
+			maven { url 'https://jitpack.io' }
+		}
+	}
+
+
+
+
+```
+Step 2. Add the dependency
+```groovy
+	dependencies {
+	        implementation 'com.github.qssq:EditableSpinner:Tag'
+	}
+```
+
 # 用法
 ```
       <lozn.spinner.EditSpinner
@@ -145,6 +164,13 @@ EditInnerSpinner 集成类解决android 10的bug无条目时卡死问题。
 
 
 ```
-library use library TextInputLayout
-    implementation 'com.google.android.material:material:1.4.0'
+library inner  use library TextInputLayout 
+    ```implementation 'com.google.android.material:material:1.4.0'```
+
+#测试demo
+
+[下载apk](https://raw.githubusercontent.com/qssq/EditableSpinner/master/apk/app.apk)
+![pic1](https://raw.githubusercontent.com/qssq/EditableSpinner/master/apk/pic1.jpg)
+![pic1](https://raw.githubusercontent.com/qssq/EditableSpinner/master/apk/pic2.jpg)
+![pic1](https://raw.githubusercontent.com/qssq/EditableSpinner/master/apk/pic3.jpg)
 
