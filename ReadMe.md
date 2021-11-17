@@ -8,12 +8,22 @@
 
 
 
+```
+or setting.gradle
+```groovy
+
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+            maven { url 'https://jitpack.io' }
+    }
+}
 
 ```
 Step 2. Add the dependency
 ```groovy
 	dependencies {
-	        implementation 'com.github.qssq:EditableSpinner:Tag'
+	        implementation 'com.github.qssq:EditableSpinner:v1.0'
 	}
 ```
 
