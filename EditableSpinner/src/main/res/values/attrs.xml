@@ -6,21 +6,36 @@
         <attr name="spinner_hint" format="string|reference" />
         <attr name="spinner_bg" format="color|reference" />
         <attr name="spinner_mode" format="enum">
-            <!-- Spinner options will be presented to the user as a dialog window. -->
             <enum name="dropdown" value="1" />
             <enum name="dialog" value="0" />
-            <!-- Spinner options will be presented to the user as an inline dropdown
-                 anchored to the spinner widget itself. -->
         </attr>
         <attr name="spinner_editable" format="boolean|reference" />
         <attr name="spinner_rebuild_Id" format="boolean|reference" />
         <attr name="spinner_item" format="string|reference" />
-    <!--    <attr name="shadow_shape"> emnum
-            <enum name="RECT" value="100"/>
-            <enum name="CIRCLE" value="101"/>
-            <enum name="ARC" value="110"/>
-        </attr>-->
 
     </declare-styleable>
+
+    <declare-styleable name="TimeView">
+<!--       default value eg: 2021-11-18-->
+        <attr name="timeview_value" format="string|reference" />
+<!--       default format: eg:yy-MM-dd -->
+        <attr name="timeview_format" format="string|reference" />
+<!--       textview with icon distance -->
+        <attr name="timeview_gap" format="dimension|reference" />
+<!--       textview label  -->
+        <attr name="timeview_hint" format="string|reference" />
+<!--       default date ,  -->
+        <attr name="timeview_mode" format="enum">
+            <enum name="date" value="0" />
+            <enum name="time" value="1" />
+        </attr>
+<!--       default date click icon  -->
+        <attr name="timeview_icon" format="color|reference" />
+<!--       default date click allow custrom edit time  -->
+        <attr name="timeview_editable" format="boolean|reference" />
+<!--       default build new id for inner view  -->
+        <attr name="timeview_rebuild_Id" format="boolean|reference" />
+    </declare-styleable>
+
 
 </resources>

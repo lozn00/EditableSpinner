@@ -5,8 +5,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import com.example.editablespinner.databinding.FragmentSecondBinding
+import lozn.timeview.TimeView
 
 /**
  * A simple [Fragment] subclass as the second destination in the navigation.
@@ -31,7 +33,11 @@ class SecondFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        binding.timeview.setOnTimeChangeListener(object :TimeView.onTimeChangeListener {
+            override fun onTimeChange(s: CharSequence?, time: Long) {
+                Toast.makeText(activity, "time:"+s+",time"+time, Toast.LENGTH_SHORT).show()
+            }
+        });
         binding.buttonSecond.setOnClickListener {
             findNavController().navigate(R.id.action_SecondFragment_to_FirstFragment)
         }

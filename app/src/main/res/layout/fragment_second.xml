@@ -1,27 +1,86 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".SecondFragment">
+
+    <TextView
+        android:id="@+id/tv_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
     <TextView
         android:id="@+id/textview_second"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@id/button_second"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintBottom_toTopOf="@id/button_second" />
 
-    <Button
-        android:id="@+id/button_second"
+    <lozn.timeview.TimeView
+        android:id="@+id/timeview"
+        android:layout_width="wrap_content"
+        android:minWidth="200dp"
+        android:layout_height="wrap_content"
+        app:timeview_hint="choose date call back" />
+
+    <lozn.timeview.TimeView
+        android:layout_width="wrap_content"
+        android:minWidth="200dp"
+        android:layout_height="wrap_content"
+        app:timeview_editable="true"
+        app:timeview_hint="editable_timeview" />
+
+    <lozn.timeview.TimeView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/previous"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textview_second" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        app:timeview_hint="custrom date"
+        app:timeview_value="1994-06-05" />
+
+    <lozn.timeview.TimeView
+        android:layout_width="wrap_content"
+        android:id="@+id/timeview_customtime"
+        android:layout_height="wrap_content"
+        app:timeview_hint="custrom time"
+        app:timeview_mode="time"
+        android:minWidth="200dp"
+        app:timeview_value="1994-06-05 05:01:10" />
+
+    <lozn.timeview.TimeView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:minWidth="200dp"
+        app:timeview_hint="custrom icon"
+        app:timeview_icon="@drawable/down_arrow_theme"
+        app:timeview_value="1994-06-05 05:01:10" />
+
+    <lozn.timeview.TimeView
+        android:minWidth="200dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:timeview_format="YY mm Month dd hh MM"
+        app:timeview_hint="custrom format"
+        app:timeview_icon="@drawable/down_arrow_theme"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btn_test"
+            android:layout_width="wrap_content"
+            android:layout_marginRight="10dp"
+            android:layout_height="wrap_content"
+            android:text="test" />
+        <Button
+            android:id="@+id/button_second"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Spinner" />
+
+    </LinearLayout>
+
+</LinearLayout>

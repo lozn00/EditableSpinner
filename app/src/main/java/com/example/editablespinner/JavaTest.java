@@ -4,7 +4,11 @@ import android.app.Activity;
 import android.view.View;
 import android.widget.AdapterView;
 
+import com.google.android.material.datepicker.MaterialDatePicker;
+import com.google.android.material.timepicker.MaterialTimePicker;
+
 import lozn.spinner.EditSpinner;
+import lozn.timeview.TimeView;
 
 /**
  * Author:Lozn
@@ -68,6 +72,27 @@ public class JavaTest  extends Activity {
             }
         });
 
+        TimeView timeView=null;
+        timeView.setFragmentManager(null);//if context not fragment act need set ,
+        timeView.setOnTimeChangeListener(new TimeView.onTimeChangeListener() {
+            //format time  time
+            @Override
+            public void onTimeChange(CharSequence s, long time) {
+        //时间
+            }
+
+        });
+        new TimeView(null){
+            @Override
+            protected void onCreateDatePicker(MaterialDatePicker.Builder<Long> datePicker) {
+                //自定义 样式
+            }
+
+            @Override
+            protected void onCreateTimePicker(MaterialTimePicker materialTimePicker) {
+                //自定义 样式
+            }
+        };
 
 
     }

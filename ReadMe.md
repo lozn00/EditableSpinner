@@ -177,6 +177,89 @@ EditInnerSpinner 集成类解决android 10的bug无条目时卡死问题。
 library inner  use library TextInputLayout 
     ```implementation 'com.google.android.material:material:1.4.0'```
 
+#timeview
+innser use material design
+custom format
+custom use date or time
+custom dialog time date style
+support default time
+support set range
+
+```
+
+
+    <lozn.timeview.TimeView
+        android:id="@+id/timeview"
+        android:layout_width="wrap_content"
+        android:minWidth="200dp"
+        android:layout_height="wrap_content"
+        app:timeview_hint="choose date call back" />
+
+    <lozn.timeview.TimeView
+        android:layout_width="wrap_content"
+        android:minWidth="200dp"
+        android:layout_height="wrap_content"
+        app:timeview_editable="true"
+        app:timeview_hint="editable_timeview" />
+
+    <lozn.timeview.TimeView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:timeview_hint="custrom date"
+        app:timeview_value="1994-06-05" />
+
+    <lozn.timeview.TimeView
+        android:layout_width="wrap_content"
+        android:id="@+id/timeview_customtime"
+        android:layout_height="wrap_content"
+        app:timeview_hint="custrom time"
+        app:timeview_mode="time"
+        android:minWidth="200dp"
+        app:timeview_value="1994-06-05 05:01:10" />
+
+    <lozn.timeview.TimeView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:minWidth="200dp"
+        app:timeview_hint="custrom icon"
+        app:timeview_icon="@drawable/down_arrow_theme"
+        app:timeview_value="1994-06-05 05:01:10" />
+
+    <lozn.timeview.TimeView
+        android:minWidth="200dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:timeview_format="YY mm Month dd hh MM"
+        app:timeview_hint="custrom format"
+        app:timeview_icon="@drawable/down_arrow_theme"
+        />
+
+```
+
+
+```
+    TimeView timeView=null;
+        timeView.setFragmentManager(null);//if context not fragment act need set ,
+        timeView.setOnTimeChangeListener(new TimeView.onTimeChangeListener() {
+            //format time  time
+            @Override
+            public void onTimeChange(CharSequence s, long time) {
+        //时间
+            }
+
+        });
+        new TimeView(null){
+            @Override
+            protected void onCreateDatePicker(MaterialDatePicker.Builder<Long> datePicker) {
+                //自定义 样式
+            }
+
+            @Override
+            protected void onCreateTimePicker(MaterialTimePicker materialTimePicker) {
+                //自定义 样式
+            }
+        };
+```
 #测试demo
 
 [下载apk](https://raw.githubusercontent.com/qssq/EditableSpinner/master/apk/app.apk)

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="0dp"
+    android:layout_weight="1"
+    android:layout_height="wrap_content">
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:background="@android:color/white"
+        android:id="@+id/date_textinput_layout"
+        android:layout_width="match_parent"
+
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:hint="TITLE">
+
+        <EditText
+            android:id="@+id/date_edittext"
+            android:text=""
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:imeOptions="actionNone"
+            android:background="@android:color/white"
+            android:selectAllOnFocus="true"
+            android:textSize="14sp"
+            android:lines="1" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+</FrameLayout>
