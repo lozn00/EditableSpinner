@@ -266,4 +266,5 @@ support set range
 ![pic1](https://raw.githubusercontent.com/qssq/EditableSpinner/master/apk/pic1.jpg)
 ![pic1](https://raw.githubusercontent.com/qssq/EditableSpinner/master/apk/pic2.jpg)
 ![pic1](https://raw.githubusercontent.com/qssq/EditableSpinner/master/apk/pic3.jpg)
+![pic1](https://raw.githubusercontent.com/qssq/EditableSpinner/master/apk/pic4.jpg)
 
