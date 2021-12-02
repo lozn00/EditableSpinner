@@ -4,7 +4,7 @@
         <attr name="spinner_value" format="string|reference" />
         <attr name="spinner_gap" format="dimension|reference" />
         <attr name="spinner_hint" format="string|reference" />
-        <attr name="spinner_bg" format="color|reference" />
+        <attr name="spinner_icon" format="color|reference" />
         <attr name="spinner_mode" format="enum">
             <enum name="dropdown" value="1" />
             <enum name="dialog" value="0" />
@@ -12,7 +12,12 @@
         <attr name="spinner_editable" format="boolean|reference" />
         <attr name="spinner_rebuild_Id" format="boolean|reference" />
         <attr name="spinner_item" format="string|reference" />
-
+        <attr name="spinner_layout_mode" format="enum">
+            <!--            展开按钮在编辑框内 expand button in editlayout inner -->
+            <enum name="expand" value="0" />
+            <!--            展开按钮在编辑框右边 expand button in editlayout right-->
+            <enum name="inner" value="1" />
+        </attr>
     </declare-styleable>
 
     <declare-styleable name="TimeView">

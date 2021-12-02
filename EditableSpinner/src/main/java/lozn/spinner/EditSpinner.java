@@ -12,7 +12,9 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +24,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.SpinnerAdapter;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
@@ -32,6 +35,15 @@ import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.ArrayList;
 
+import lozn.biz.BizUtil;
+
+/**
+ * Author:Lozn
+ * Email:qssq521@gmail.com
+ * 2021/10/29
+ * 9:37
+ */
+
 /**
  * Author:Lozn
  * Email:qssq521@gmail.com
@@ -40,11 +52,13 @@ import java.util.ArrayList;
  */
 public class EditSpinner extends LinearLayout {
 
+    private static final int LAYOUT_MODE_EXPAND = 0;
+    private static final int LAYOUT_MODE_INNER = 1;
     private EditText editText;
     private EditInnerSpinner appCoSpinner;
     private ImageView imageView;
     private OnSpinnerClickListener spinnerClickListener;
-    private boolean rebuildID=true;
+    private boolean rebuildID = true;
 
     public String getBelong() {
         return belong;
@@ -59,7 +73,7 @@ public class EditSpinner extends LinearLayout {
      */
     private String belong;
 
-    public AppCompatSpinner getAppCompatSpinner() {
+    public EditInnerSpinner getAppCompatSpinner() {
         return appCoSpinner;
     }
 
@@ -99,31 +113,47 @@ public class EditSpinner extends LinearLayout {
 
         //edittview
         editText = (EditText) edit_layout.findViewById(R.id.spinner_edittext);
-        textInputLayout =edit_layout.findViewById(R.id.spinner_textinput_layout);
+        textInputLayout = edit_layout.findViewById(R.id.spinner_textinput_layout);
 //        textInputLayout.setId(getId());
-        textInputLayout.setBoxStrokeWidthFocused(0);
-        textInputLayout.setBoxStrokeWidth(0);
+//        textInputLayout.setBoxStrokeWidthFocused(0);
+//        textInputLayout.setBoxStrokeWidth(0);
         appCoSpinner = edit_layout.findViewById(R.id.spinner_inner);
 
         String hint_str = "";
         int gap = 0;
-        editText.setBackgroundColor(Color.TRANSPARENT);
-        textInputLayout.setBackgroundColor(Color.TRANSPARENT);//清除背景颜色
+//        editText.setBackgroundColor(Color.TRANSPARENT);
         imageView = new ImageView(context);
         imageView.setId(R.id.image);
+//        imageView.setAlpha(0f);
+//        textInputLayout.setBackgroundColor(context.getResources().getColor(R.color.white));//清除背景颜色 貌似导致在api 22变成了灰色。
+        Drawable background = getBackground();
+        if (background == null) {
+            if (Build.VERSION.SDK_INT < 25) {
+//                setBackgroundColor(context.getResources().getColor(R.color.w));
+
+            } else {
+//                setBackgroundColor(Color.TRANSPARENT);//清除背景颜色 貌似导致在api 22变成了灰色。
+
+            }
+        } else {
+
+        }
         CharSequence[] mEntries = null;
+        int layoutMode = LAYOUT_MODE_EXPAND;
         if (attrs != null) {
             TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.EditSpinner);
             mEntries = typedArray.getTextArray(R.styleable.EditSpinner_spinner_item);
-            int resourceId = typedArray.getResourceId(R.styleable.EditSpinner_spinner_bg, 0);
+            int resourceId = typedArray.getResourceId(R.styleable.EditSpinner_spinner_icon, R.drawable.down_arrow);
             int mode = typedArray.getInt(R.styleable.EditSpinner_spinner_mode, MODE_DROPDOWN);
-            if(mode==MODE_DIALOG){
+            layoutMode = typedArray.getInt(R.styleable.EditSpinner_spinner_layout_mode, LAYOUT_MODE_EXPAND);
+
+            if (mode == MODE_DIALOG) {
                 //REBUILD VIEW 或者在这之前就重新加载布局
                 ViewGroup parent = edit_layout.findViewById(R.id.spinner_container);
                 parent.removeAllViews();
-                appCoSpinner=new EditInnerSpinner(context,mode);
+                appCoSpinner = new EditInnerSpinner(context, mode);
                 FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                params.gravity=Gravity.BOTTOM;
+                params.gravity = Gravity.BOTTOM;
                 appCoSpinner.setVisibility(INVISIBLE);
                 parent.addView(appCoSpinner, params);
 
@@ -141,9 +171,14 @@ public class EditSpinner extends LinearLayout {
             if (drawable != null) {
                 imageView.setImageDrawable(drawable);
             }
+            imageView.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
             hint_str = typedArray.getString(R.styleable.EditSpinner_spinner_hint);
             appCoSpinner.setPrompt(hint_str);
             textInputLayout.setHint(hint_str);
+            if (BuildConfig.DEBUG) {
+                Log.w("HINIT_", "txt:" + hint_str);
+
+            }
 
             String value = typedArray.getString(R.styleable.EditSpinner_spinner_value);
 
@@ -159,7 +194,7 @@ public class EditSpinner extends LinearLayout {
         } else {
 
         }
-        if(rebuildID){//重建id,避免fragment重建 后，导致hint内容重复，
+        if (rebuildID) {//重建id,避免fragment重建 后，导致hint内容重复，
             textInputLayout.setId(View.generateViewId());
             imageView.setId(View.generateViewId());
             editText.setId(View.generateViewId());
@@ -171,38 +206,49 @@ public class EditSpinner extends LinearLayout {
         imageView.setPadding(0, 0, 0, 0);
         //背景清除
 //        int minwidth = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 120, context.getResources().getDisplayMetrics());
-        addView(imageView);
-        editText.setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, null, null);
+        if (layoutMode == LAYOUT_MODE_EXPAND) {
+            addView(imageView);
+
+        } else {
+            edit_layout.addView(imageView);
+
+        }
+//        editText.setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, null, null);
         if (mEntries != null && mEntries.length > 0) {
-            MySpinnerRecycleAdapter<CharSequence> adapter = new MySpinnerRecycleAdapter<>();
-            ArrayList<CharSequence> data = new ArrayList<>();
-            for (CharSequence mEntry : mEntries) {
-                data.add(mEntry);
-            }
-            adapter.setData(data);
-            setAdapter(adapter);
+            BizUtil.genereateDefaultAdapter(this,mEntries);
         }
 
 
         //set layout param
-        modifyLayout(edit_layout,gap);
+        modifyLayout(edit_layout, gap, layoutMode);
         initEvent();
 
 
         //        addView(textInputLayout, labelparam);
     }
-    private void modifyLayout(View edit_layout,int gap){
 
-        LayoutParams paramArrowDown = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        paramArrowDown.gravity = Gravity.CENTER;
-        imageView.setMinimumWidth(30);
-        imageView.setLayoutParams(paramArrowDown);
-        LayoutParams edittextparam = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+    private void modifyLayout(View edit_layout, int gap, int layoutMode) {
+
+        if (layoutMode == LAYOUT_MODE_EXPAND) {
+            LinearLayout.LayoutParams paramArrowDown = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            paramArrowDown.gravity = Gravity.CENTER;
+            imageView.setMinimumWidth(30);
+            imageView.setLayoutParams(paramArrowDown);
+
+        } else {
+            FrameLayout.LayoutParams paramArrowDown = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            paramArrowDown.gravity = Gravity.CENTER_VERTICAL | Gravity.RIGHT;
+            imageView.setMinimumWidth(30);
+            imageView.setLayoutParams(paramArrowDown);
+
+        }
+
+        LinearLayout.LayoutParams edittextparam = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         edittextparam.width = 0;
         edittextparam.weight = 1;
         edittextparam.gravity = Gravity.CENTER;
         edittextparam.rightMargin = gap;
-        addView(edit_layout,0,edittextparam);
+        addView(edit_layout, 0, edittextparam);
     }
 
     private void initEvent() {
@@ -248,24 +294,37 @@ public class EditSpinner extends LinearLayout {
             }
         });
 
-
+        editText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (onValueChangeListener != null) {
+                    return onValueChangeListener.onEditorAction(v, actionId, event);
+                }
+                return false;
+            }
+        });
         editText.setOnFocusChangeListener(new OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus) {
                     focusText = editText.getText().toString();
                     if (onValueChangeListener != null) {
-                        onValueChangeListener.onGainFocus();
+                        onValueChangeListener.onGainFocus(focusText);
                     }
                 } else {
-                    if (!editText.getText().toString().equals(focusText)) {
-                        focusText = editText.getText().toString();
-                        if (onValueChangeListener != null) {
-                            onValueChangeListener.onLossFocusAndTextChange();
-                        }
-                    } else {
-                        if (onValueChangeListener != null) {
-                            onValueChangeListener.onLossFocus();
+                    if (onValueChangeListener != null) {
+                        onValueChangeListener.onLossFocus();
+                    /*    if (appCoSpinner.getMyselection() != -1) {
+                            Object text = appCoSpinner.getSelectedItem();
+                            if(text!=null&&!text.toString().equals(editText.getText().toString())){
+
+                            }
+                        }*/
+                        if (!editText.getText().toString().equals(focusText)) {
+                            focusText = editText.getText().toString();
+                            if (onValueChangeListener != null) {
+                                onValueChangeListener.onLossFocusAndTextChange();
+                            }
                         }
                     }
                 }
@@ -280,6 +339,20 @@ public class EditSpinner extends LinearLayout {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (appCoSpinner.getAdapter() != null) {
+                    SpinnerAdapter adapter = appCoSpinner.getAdapter();
+                    int count1 = adapter.getCount();
+                    boolean find = false;
+                    for (int i = 0; i < count1; i++) {
+                        Object item = adapter.getItem(i);
+                        if (item != null & String.valueOf(item).equals(s.toString())) {
+                            appCoSpinner.setMyselection(i);
+                        }
+                    }
+                    if (!find) {
+                        appCoSpinner.setMyselection(-1);
+                    }
+                }
                 if (onValueChangeListener != null) {
                     onValueChangeListener.onTextChanged(s);
                 }
@@ -418,6 +491,12 @@ public class EditSpinner extends LinearLayout {
         return textInputLayout.getHint();
     }
 
+    public void clearData() {
+
+        setAdapter(null);
+        setText("");
+    }
+
     public interface OnSpinnerClickListener {
         /**
          * 返回true,表示拦截系统的，不让逻辑继续往下走!
@@ -435,16 +514,18 @@ public class EditSpinner extends LinearLayout {
 
         void onTextChanged(CharSequence s);
 
-        void onGainFocus();
+        void onGainFocus(String focusText);
 
         /**
-         * return true  change focusText status
+         * return true  change focusText status 也就是说失去焦点就不会触发了 //item选择触发后 那么失去焦点的改变就不会触发了。，
          *
          * @param position
          * @param selectedItem
          * @return
          */
         boolean onItemSelectPostionChanged(int position, String selectedItem);
+
+        boolean onEditorAction(TextView v, int actionId, KeyEvent event);
     }
 
     public OnValueChangeListener getOnValueChangeListener() {
@@ -522,7 +603,7 @@ public class EditSpinner extends LinearLayout {
     }*/
 
     public void setAdapter(SpinnerAdapter adapter) {
-        int count = adapter.getCount();
+        int count = adapter == null ? 0 : adapter.getCount();
         appCoSpinner.setAdapter(adapter);
         if (count > 0) {
             Object item = adapter.getItem(0);

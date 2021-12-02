@@ -1,4 +1,5 @@
 #添加依赖
+
 ```groovy
 	allprojects {
 		repositories {
@@ -9,7 +10,9 @@
 
 
 ```
+
 or setting.gradle
+
 ```groovy
 
 dependencyResolutionManagement {
@@ -20,7 +23,9 @@ dependencyResolutionManagement {
 }
 
 ```
+
 Step 2. Add the dependency
+
 ```groovy
 	dependencies {
 	        implementation 'com.github.qssq:EditableSpinner:v1.0'
@@ -28,6 +33,7 @@ Step 2. Add the dependency
 ```
 
 # 用法
+
 ```
       <lozn.spinner.EditSpinner
                            android:layout_height="wrap_content"
@@ -42,23 +48,27 @@ Step 2. Add the dependency
 
 
 ```
-#功能
-```mode``` 支持dialog dropdown 默认dropdown 当这个下拉列表在底部的时候会网上展开
-```item``` 设置默认item条目 ，这样对于纯字符的可以不需要用代码设置
-```editable``` 控制是否可编辑
-```spinner_rebuild_Id``` 如果viewpager fragment大量使用，则会导致hint重复问题，这是fragment的回收机制问题,给每一个分配不同id就可以解决这个问题
-```spinner_bg``` spinner箭头图标样式
-```spinner_gap``` 编辑框距离下拉列表图标的距离
 
+#功能
+```spinner_mode``` 支持dialog dropdown 默认dropdown 当这个下拉列表在底部的时候会网上展开
+```spinner_item``` 设置默认item条目 ，这样对于纯字符的可以不需要用代码设置
+```spinner_editable``` 控制是否可编辑
+```spinner_rebuild_Id``` 如果viewpager fragment大量使用，则会导致hint重复问题，这是fragment的回收机制问题,给每一个分配不同id就可以解决这个问题
+```spinner_icon``` spinner箭头图标样式
+```spinner_gap``` 编辑框距离下拉列表图标的距离
+```spinner_layout_mode```  展开图标的摆放位置 ,inner表示使用stack模式，浮在编辑框右上方，expand 在编辑框右边。
 
 arrays.xml
 <string-array name="items">
 <item>3333</item>
 <item>5555</item>
 </string-array>
+
 # 自定义布局
+
 通过xml控制布局样式也可以通过代码，
 新建 edit_spinner_edit_layout
+
 ```xml
 
 <?xml version="1.0" encoding="utf-8"?>
@@ -77,7 +87,7 @@ arrays.xml
             android:visibility="invisible"
             android:layout_gravity="bottom"
             android:spinnerMode="dropdown"
-            
+          
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@android:color/white">
@@ -110,22 +120,24 @@ arrays.xml
 
 
 ```
+
 温馨提示：
 设置EditInnerSpinner的transnameY可控制drown弹出的位置偏移
 EditInnerSpinner 必须设置不可见
 EditInnerSpinner 集成类解决android 10的bug无条目时卡死问题。
-```java
+
+```
 
  editSpinner.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                
+              
             }
         });
         editSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                
+              
             }
 
             @Override
@@ -135,11 +147,11 @@ EditInnerSpinner 集成类解决android 10的bug无条目时卡死问题。
         });
         editSpinner.setSelection(-1);
         String text = editSpinner.getText();//设置-1清空文本，  这里将得到空
-        
+      
         editSpinner.setOnValueChangeListener(new EditSpinner.OnValueChangeListener() {
             @Override
             public void onLossFocus() {
-                    
+                  
             }
 
             @Override
@@ -168,14 +180,15 @@ EditInnerSpinner 集成类解决android 10的bug无条目时卡死问题。
                 return false;
             }
         });
-        
-        
-        
+      
+      
+      
 
 
 ```
-library inner  use library TextInputLayout 
-    ```implementation 'com.google.android.material:material:1.4.0'```
+
+library inner  use library TextInputLayout
+```implementation 'com.google.android.material:material:1.4.0'```
 
 #timeview
 innser use material design
@@ -236,7 +249,6 @@ support set range
 
 ```
 
-
 ```
     TimeView timeView=null;
         timeView.setFragmentManager(null);//if context not fragment act need set ,
@@ -260,6 +272,7 @@ support set range
             }
         };
 ```
+
 #测试demo
 
 [下载apk](https://raw.githubusercontent.com/qssq/EditableSpinner/master/apk/app.apk)
@@ -267,4 +280,3 @@ support set range
 ![pic1](https://raw.githubusercontent.com/qssq/EditableSpinner/master/apk/pic2.jpg)
 ![pic1](https://raw.githubusercontent.com/qssq/EditableSpinner/master/apk/pic3.jpg)
 ![pic1](https://raw.githubusercontent.com/qssq/EditableSpinner/master/apk/pic4.jpg)
-
