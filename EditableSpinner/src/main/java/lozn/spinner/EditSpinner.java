@@ -13,6 +13,7 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -127,26 +128,14 @@ public class EditSpinner extends LinearLayout {
 //        imageView.setAlpha(0f);
 //        textInputLayout.setBackgroundColor(context.getResources().getColor(R.color.white));//清除背景颜色 貌似导致在api 22变成了灰色。
         Drawable background = getBackground();
-        if (background == null) {
-            if (Build.VERSION.SDK_INT < 25) {
-//                setBackgroundColor(context.getResources().getColor(R.color.w));
-
-            } else {
-//                setBackgroundColor(Color.TRANSPARENT);//清除背景颜色 貌似导致在api 22变成了灰色。
-
-            }
-        } else {
-
-        }
         CharSequence[] mEntries = null;
-        int layoutMode = LAYOUT_MODE_EXPAND;
+        int layoutMode = LAYOUT_MODE_INNER;
         if (attrs != null) {
             TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.EditSpinner);
             mEntries = typedArray.getTextArray(R.styleable.EditSpinner_spinner_item);
             int resourceId = typedArray.getResourceId(R.styleable.EditSpinner_spinner_icon, R.drawable.down_arrow);
             int mode = typedArray.getInt(R.styleable.EditSpinner_spinner_mode, MODE_DROPDOWN);
-            layoutMode = typedArray.getInt(R.styleable.EditSpinner_spinner_layout_mode, LAYOUT_MODE_EXPAND);
-
+            layoutMode = typedArray.getInt(R.styleable.EditSpinner_spinner_layout_mode, layoutMode);
             if (mode == MODE_DIALOG) {
                 //REBUILD VIEW 或者在这之前就重新加载布局
                 ViewGroup parent = edit_layout.findViewById(R.id.spinner_container);
@@ -165,7 +154,6 @@ public class EditSpinner extends LinearLayout {
                 ;
             } else {//兼容矢量图片
                 drawable = AppCompatResources.getDrawable(context, R.drawable.down_arrow);
-                ;
             }
 
             if (drawable != null) {
@@ -177,17 +165,13 @@ public class EditSpinner extends LinearLayout {
             textInputLayout.setHint(hint_str);
             if (BuildConfig.DEBUG) {
                 Log.w("HINIT_", "txt:" + hint_str);
-
             }
-
             String value = typedArray.getString(R.styleable.EditSpinner_spinner_value);
-
             boolean editable = typedArray.getBoolean(R.styleable.EditSpinner_spinner_editable, true);
             rebuildID = typedArray.getBoolean(R.styleable.EditSpinner_spinner_rebuild_Id, rebuildID);
             gap = typedArray.getDimensionPixelSize(R.styleable.EditSpinner_spinner_gap, 5);
             editText.setEnabled(editable);
             if (!TextUtils.isEmpty(value)) {
-
                 editText.setText(value);
             }
             typedArray.recycle();
@@ -220,14 +204,29 @@ public class EditSpinner extends LinearLayout {
 
 
         //set layout param
-        modifyLayout(edit_layout, gap, layoutMode);
+        modifyLayout(edit_layout, gap, layoutMode,editText);
         initEvent();
 
 
         //        addView(textInputLayout, labelparam);
     }
 
-    private void modifyLayout(View edit_layout, int gap, int layoutMode) {
+    public static int dip2px(Context context, float dpValue) {
+     /*   final float scale = context.getResources().getDisplayMetrics().density;//density=dpi/160
+        return (int) (dpValue * scale + 0.5f);
+*/
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
+
+                dpValue, context.getResources().getDisplayMetrics());
+
+
+        /*
+
+
+         */
+    }
+
+    private void modifyLayout(View edit_layout, int gap, int layoutMode, EditText editText) {
 
         if (layoutMode == LAYOUT_MODE_EXPAND) {
             LinearLayout.LayoutParams paramArrowDown = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -238,7 +237,15 @@ public class EditSpinner extends LinearLayout {
         } else {
             FrameLayout.LayoutParams paramArrowDown = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             paramArrowDown.gravity = Gravity.CENTER_VERTICAL | Gravity.RIGHT;
+            paramArrowDown.rightMargin=dip2px(edit_layout.getContext(),8);
             imageView.setMinimumWidth(30);
+            int width = imageView.getWidth();
+            if(width==0){
+                imageView.measure(0,0);
+                width=imageView.getMeasuredWidth();
+            }
+            width=width+paramArrowDown.rightMargin;
+            editText.setPadding(editText.getPaddingLeft(),editText.getPaddingTop(), width,editText.getPaddingBottom());
             imageView.setLayoutParams(paramArrowDown);
 
         }

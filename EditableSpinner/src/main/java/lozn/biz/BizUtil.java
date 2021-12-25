@@ -20,5 +20,16 @@ public class BizUtil {
         }
         adapter.setData(data);
         editSpinner.setAdapter(adapter);
+        /*
+
+            MySpinnerAdapter<CharSequence, ViewDataBinding> adapter = new MySpinnerAdapter<>();
+            ArrayList<CharSequence> data = new ArrayList<>();
+            for (CharSequence mEntry : mEntries) {
+                data.add(mEntry);
+            }
+            adapter.setData(data);
+            setAdapter(adapter);
+
+         */
     }
 }

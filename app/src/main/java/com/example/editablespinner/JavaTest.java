@@ -1,8 +1,10 @@
 package com.example.editablespinner;
 
 import android.app.Activity;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.TextView;
 
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.timepicker.MaterialTimePicker;
@@ -56,10 +58,15 @@ public class JavaTest  extends Activity {
             }
 
             @Override
-            public void onGainFocus() {
+            public void onGainFocus(String focusText) {
 
             }
 
+            /*@Override
+            public void onGainFocus() {
+
+            }
+*/
             /**
              * 返回true更新 状态，那么基本上不会调用  onLossFocusAndTextChange
              * @param position
@@ -68,6 +75,11 @@ public class JavaTest  extends Activity {
              */
             @Override
             public boolean onItemSelectPostionChanged(int position, String selectedItem) {
+                return false;
+            }
+
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 return false;
             }
         });

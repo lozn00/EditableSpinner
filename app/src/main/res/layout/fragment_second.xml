@@ -46,7 +46,15 @@
         app:timeview_mode="time"
         android:minWidth="200dp"
         app:timeview_value="1994-06-05 05:01:10" />
+    <lozn.spinner.EditSpinner
+        android:layout_width="wrap_content"
+        android:id="@+id/my_editspinner"
+        android:layout_height="wrap_content"
+        app:spinner_item="@array/month"
+        app:spinner_hint="goooooooooooooo"
+        android:minWidth="200dp"
 
+        />
     <lozn.timeview.TimeView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -63,6 +71,16 @@
         app:timeview_hint="custrom format"
         app:timeview_icon="@drawable/down_arrow_theme"
         />
+    <lozn.spinner.EditSpinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="50dp"
+        android:minWidth="50dp"
+        app:spinner_icon="@drawable/down_arrow"
+        app:spinner_editable="false"
+        app:spinner_hint="月份-弹出式编辑框"
+        app:spinner_item="@array/month"
+        app:spinner_mode="dialog" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -81,6 +99,9 @@
             android:layout_height="wrap_content"
             android:text="Spinner" />
 
+
+
     </LinearLayout>
+
 
 </LinearLayout>
