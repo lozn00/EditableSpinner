@@ -28,7 +28,7 @@
 
         android:hint="ff">
 
-        <EditText
+        <lozn.spinner.EditableEdittext
 
             android:id="@+id/spinner_edittext"
             android:layout_width="match_parent"

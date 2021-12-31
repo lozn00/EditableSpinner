@@ -35,6 +35,7 @@ import androidx.appcompat.widget.AppCompatSpinner;
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import lozn.biz.BizUtil;
 
@@ -51,15 +52,17 @@ import lozn.biz.BizUtil;
  * 2021/10/29
  * 9:37
  */
+
 public class EditSpinner extends LinearLayout {
 
     private static final int LAYOUT_MODE_EXPAND = 0;
     private static final int LAYOUT_MODE_INNER = 1;
-    private EditText editText;
+    private EditableEdittext editText;
     private EditInnerSpinner appCoSpinner;
     private ImageView imageView;
     private OnSpinnerClickListener spinnerClickListener;
     private boolean rebuildID = true;
+    private TextWatcher watcher;
 
     public String getBelong() {
         return belong;
@@ -113,7 +116,7 @@ public class EditSpinner extends LinearLayout {
         ViewGroup edit_layout = (ViewGroup) LayoutInflater.from(context).inflate(R.layout.edit_spinner_edit_layout, this, false);//add view
 
         //edittview
-        editText = (EditText) edit_layout.findViewById(R.id.spinner_edittext);
+        editText = (EditableEdittext) edit_layout.findViewById(R.id.spinner_edittext);
         textInputLayout = edit_layout.findViewById(R.id.spinner_textinput_layout);
 //        textInputLayout.setId(getId());
 //        textInputLayout.setBoxStrokeWidthFocused(0);
@@ -154,6 +157,7 @@ public class EditSpinner extends LinearLayout {
                 ;
             } else {//兼容矢量图片
                 drawable = AppCompatResources.getDrawable(context, R.drawable.down_arrow);
+//                drawable = AppCompatResources.getDrawable(context, R.drawable.ic_arrow_down);
             }
 
             if (drawable != null) {
@@ -170,7 +174,7 @@ public class EditSpinner extends LinearLayout {
             boolean editable = typedArray.getBoolean(R.styleable.EditSpinner_spinner_editable, true);
             rebuildID = typedArray.getBoolean(R.styleable.EditSpinner_spinner_rebuild_Id, rebuildID);
             gap = typedArray.getDimensionPixelSize(R.styleable.EditSpinner_spinner_gap, 5);
-            editText.setEnabled(editable);
+            editText.setEditable(editable);
             if (!TextUtils.isEmpty(value)) {
                 editText.setText(value);
             }
@@ -199,7 +203,16 @@ public class EditSpinner extends LinearLayout {
         }
 //        editText.setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, null, null);
         if (mEntries != null && mEntries.length > 0) {
-            BizUtil.genereateDefaultAdapter(this,mEntries);
+           BizUtil.genereateDefaultAdapter(this,mEntries);
+/*
+            MySpinnerAdapter<CharSequence, ViewDataBinding> adapter = new MySpinnerAdapter<>();
+            ArrayList<CharSequence> data = new ArrayList<>();
+            for (CharSequence mEntry : mEntries) {
+                data.add(mEntry);
+            }
+            adapter.setData(data);
+            setAdapter(adapter);
+*/
         }
 
 
@@ -237,7 +250,7 @@ public class EditSpinner extends LinearLayout {
         } else {
             FrameLayout.LayoutParams paramArrowDown = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             paramArrowDown.gravity = Gravity.CENTER_VERTICAL | Gravity.RIGHT;
-            paramArrowDown.rightMargin=dip2px(edit_layout.getContext(),8);
+            paramArrowDown.rightMargin=dip2px(edit_layout.getContext(),4);
             imageView.setMinimumWidth(30);
             int width = imageView.getWidth();
             if(width==0){
@@ -265,7 +278,7 @@ public class EditSpinner extends LinearLayout {
                 appCoSpinner.setMyselection(position);
                 Object selectedItem = appCoSpinner.getSelectedItem();
                 String beforeText = editText.getText().toString();
-                editText.setText(String.valueOf(selectedItem));
+                setTextNoNotify(String.valueOf(selectedItem));
                 editText.selectAll();
 //                editText.requestFocus();
                 if (onItemSelectedListener != null) {
@@ -293,7 +306,7 @@ public class EditSpinner extends LinearLayout {
                 if (appCoSpinner.getSelectedItemPosition() == 0) {
                     Object selectedItem = appCoSpinner.getSelectedItem();
                     if (selectedItem != null) {
-                        editText.setText(selectedItem + "");//当clearText的时候又选中当前的时候，不会触发onOptionChange,所以点击就自动给它设置吧。没其他更好的办法了!
+                        setTextNoNotify(selectedItem + "");//当clearText的时候又选中当前的时候，不会触发onOptionChange,所以点击就自动给它设置吧。没其他更好的办法了!
 
                     }
                 }
@@ -338,7 +351,7 @@ public class EditSpinner extends LinearLayout {
 
             }
         });
-        editText.addTextChangedListener(new TextWatcher() {
+        watcher = new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -354,6 +367,7 @@ public class EditSpinner extends LinearLayout {
                         Object item = adapter.getItem(i);
                         if (item != null & String.valueOf(item).equals(s.toString())) {
                             appCoSpinner.setMyselection(i);
+                            find = true;
                         }
                     }
                     if (!find) {
@@ -369,7 +383,8 @@ public class EditSpinner extends LinearLayout {
             public void afterTextChanged(Editable s) {
 
             }
-        });
+        };
+        editText.addTextChangedListener(watcher);
     }
 
     String focusText;
@@ -504,6 +519,22 @@ public class EditSpinner extends LinearLayout {
         setText("");
     }
 
+    public void setData(List data) {
+
+        MySpinnerRecycleAdapter<CharSequence> adapter = new MySpinnerRecycleAdapter<>();
+        SpinnerAdapter adapter1 = getAdapter();
+        adapter.setData(data);
+        setAdapter(adapter);
+    }
+
+/*
+    public void setData(List data) {
+        MySpinnerAdapter<Object, ViewDataBinding> adapter = new MySpinnerAdapter<>();
+        adapter.setData(data);
+        setAdapter(adapter);
+    }
+*/
+
     public interface OnSpinnerClickListener {
         /**
          * 返回true,表示拦截系统的，不让逻辑继续往下走!
@@ -541,6 +572,38 @@ public class EditSpinner extends LinearLayout {
 
     public void setOnValueChangeListener(OnValueChangeListener onValueChangeListener) {
         this.onValueChangeListener = onValueChangeListener;
+    }
+    public  static  class SimpleOnValueChangeListener implements OnValueChangeListener {
+
+        @Override
+        public void onLossFocus() {
+
+        }
+
+        @Override
+        public void onLossFocusAndTextChange() {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s) {
+
+        }
+
+        @Override
+        public void onGainFocus(String focusText) {
+
+        }
+
+        @Override
+        public boolean onItemSelectPostionChanged(int position, String selectedItem) {
+            return false;
+        }
+
+        @Override
+        public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+            return false;
+        }
     }
 
     OnValueChangeListener onValueChangeListener;
@@ -615,12 +678,22 @@ public class EditSpinner extends LinearLayout {
         if (count > 0) {
             Object item = adapter.getItem(0);
             if (item != null) {
-                editText.setText(item + "");
+                setTextNoNotify(item + "");
                 if (appCoSpinner.getSelectedItemPosition() != 0) {
                     appCoSpinner.setSelection(0);
+                    appCoSpinner.setMyselection(0);
                 }
+                appCoSpinner.setMyselection(0);
             }
+        }else{
+            appCoSpinner.setMyselection(-1);
         }
+    }
+
+    private void setTextNoNotify(String s) {
+        editText.removeTextChangedListener(watcher);
+        editText.setText(s);
+        editText.addTextChangedListener(watcher);
     }
 
     public EditText getEditText() {
