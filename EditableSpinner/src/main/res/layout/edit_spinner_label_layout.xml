@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="bottom"
+    android:orientation="vertical">
+
+
+    <FrameLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/title_wrap">
+
+        <FrameLayout
+            android:id="@+id/spinner_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="visible">
+
+            <lozn.spinner.EditInnerSpinner
+
+                android:id="@+id/spinner_inner"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_gravity="bottom"
+                android:spinnerMode="dropdown"
+                android:translationY="10dp"
+                android:visibility="invisible"></lozn.spinner.EditInnerSpinner>
+        </FrameLayout>
+
+        <com.google.android.material.textfield.MaterialAutoCompleteTextView
+            android:id="@+id/spinner_edittext"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="top"
+            android:ellipsize="end"
+            android:hint="@string/unchoose"
+            android:imeOptions="flagNoExtractUi|actionDone"
+            android:lines="1"
+            android:maxLines="1"
+            android:paddingLeft="@dimen/spinner_top_label_margin_left"
+            android:text="" />
+
+    </FrameLayout>
+
+    <LinearLayout
+        android:id="@+id/title_wrap"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:translationY="@dimen/fix_spinner_title_position_translation_y">
+
+        <TextView
+            android:id="@+id/tv_label"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="2dp"
+            android:paddingLeft="@dimen/spinner_top_label_margin_left"
+            android:text="" />
+    </LinearLayout>
+</RelativeLayout>

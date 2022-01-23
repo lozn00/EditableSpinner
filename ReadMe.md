@@ -31,7 +31,8 @@ Step 2. Add the dependency
 	        implementation 'com.github.qssq:EditableSpinner:v1.0'
 	}
 ```
-
+![img_1.png](img_1.png)
+![img_2.png](img_2.png)
 # 用法
 
 ```
@@ -56,16 +57,27 @@ Step 2. Add the dependency
 ```spinner_rebuild_Id``` 如果viewpager fragment大量使用，则会导致hint重复问题，这是fragment的回收机制问题,给每一个分配不同id就可以解决这个问题
 ```spinner_icon``` spinner箭头图标样式
 ```spinner_gap``` 编辑框距离下拉列表图标的距离
-```spinner_layout_mode```  展开图标的摆放位置 ,inner表示使用stack模式，浮在编辑框右上方，expand 在编辑框右边。
-
+```spinner_layout_mode```  展开图标的摆放位置 ,inner表示使用stack模式，浮在编辑框右上方，expand 在编辑框右边。 label_dropdown 则表示箭头在标题右边，紧贴标题
 arrays.xml
 <string-array name="items">
 <item>3333</item>
 <item>5555</item>
 </string-array>
+#自动提示
 
+必须开启可编辑功能方可开启自动提示
+``` 
+        val mentriesx = arrayOf("a2", "a", "f", "bbc", "12345","ffcc")
+        mentriesx.set(0,mentriesx::class.java.simpleName+"_test");
+        for (sequence in mentriesx) {
+            data.add(sequence)
+        }
+        adapter.setData(data)
+        binding.editspinnerAutotip.setAdapter(adapter)
+```
+自动提示的实现原理是使用了MaterialAutoCompleteTextView spinner弹出式内部维护了Spinner,   demo默认和spinner点击的view公用同一个adapter,不管输入什么都会提示，只是匹配的会弄到第一项， spinner箭头点开后数据也是一样的。
+![img.png](img.png)
 # 自定义布局
-
 通过xml控制布局样式也可以通过代码，
 新建 edit_spinner_edit_layout
 

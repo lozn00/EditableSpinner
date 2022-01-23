@@ -53,6 +53,11 @@ public class JavaTest  extends Activity {
             }
 
             @Override
+            public void onTextAutoCompleteChoose(int position, long id) {
+                //可用于关闭键盘。
+            }
+
+            @Override
             public void onTextChanged(CharSequence s) {
 
             }

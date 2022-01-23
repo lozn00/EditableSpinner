@@ -1,18 +1,20 @@
-package lozn.spinner;
+package lozn.spinner.base;
 
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 
 
 import java.util.List;
+
+import lozn.spinner.BaseViewHolderI;
+import lozn.spinner.OnItemLongClickListener;
 
 /**
  * Created by luozheng on 2015/11/7.
  * update 2016-01-07 15:10:03
  */
-public abstract class ListViewRecycleAdapter<T, VH extends BaseViewHolderI> extends BaseAdapter  {
+public abstract class ListViewRecycleAdapter<T, VH extends BaseViewHolderI> extends FilterableBaseAdapter {
     public List<T> data;
     public int mPage;
     private String TAG = "DefaultAdapter";

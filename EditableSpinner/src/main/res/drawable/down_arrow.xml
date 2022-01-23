@@ -6,6 +6,6 @@
             <solid android:color="#ccc"/>
         </shape>
     </item>
-    <item  android:drawable="@drawable/arrow_down" android:gravity="center">
+    <item  android:drawable="@drawable/down_arrow_theme" android:gravity="center">
     </item>
 </layer-list>

@@ -6,42 +6,40 @@
 
     <FrameLayout
         android:id="@+id/spinner_container"
-
         android:layout_width="match_parent"
-            android:visibility="visible"
+        android:visibility="visible"
         android:layout_height="wrap_content">
-
-
         <lozn.spinner.EditInnerSpinner
             android:id="@+id/spinner_inner"
             android:visibility="invisible"
             android:layout_gravity="bottom"
             android:translationY="10dp"
+
             android:spinnerMode="dropdown"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             >
-
         </lozn.spinner.EditInnerSpinner>
     </FrameLayout>
     <com.google.android.material.textfield.TextInputLayout
+        style="@style/ThemeTextInputLayoutDropdownMenu"
         android:id="@+id/spinner_textinput_layout"
+        app:endIconMode="custom"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:hint="TITLE">
 
-        <lozn.spinner.DisEditEdittext
+        <com.google.android.material.textfield.MaterialAutoCompleteTextView
             android:id="@+id/spinner_edittext"
-            android:text=""
+            android:text="33"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:maxLines="1"
             android:ellipsize="end"
             android:imeOptions="flagNoExtractUi|actionDone"
             android:lines="1" />
-
     </com.google.android.material.textfield.TextInputLayout>
 
 </FrameLayout>

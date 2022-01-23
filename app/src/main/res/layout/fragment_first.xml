@@ -23,19 +23,54 @@
             android:layout_height="wrap_content"
             android:minHeight="50dp"
             android:id="@+id/editspinner"
-            app:spinner_icon="@drawable/down_arrow"
             app:spinner_gap="2dp"
             app:spinner_editable="true"
             app:spinner_hint="月份可编辑编辑框"
             app:spinner_item="@array/month" />
-
-
+        <lozn.spinner.EditSpinner
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="50dp"
+            android:id="@+id/editspinner_autotip"
+            app:spinner_gap="2dp"
+            app:spinner_editable="true"
+            app:spinner_hint="@string/autotip"
+            />
 
         <lozn.spinner.EditSpinner
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:minHeight="50dp"
-            app:spinner_icon="@drawable/down_arrow"
+            app:spinner_gap="2dp"
+            app:spinner_layout_mode="expand"
+            app:spinner_editable="true"
+            app:spinner_hint="expand模式"
+            app:spinner_item="@array/month" />
+        <lozn.spinner.EditSpinner
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="50dp"
+            app:spinner_gap="2dp"
+            app:spinner_layout_mode="inner"
+            app:spinner_editable="true"
+            app:spinner_hint="inner模式"
+            app:spinner_item="@array/month" />
+
+        <lozn.spinner.EditSpinner
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="50dp"
+            app:spinner_gap="2dp"
+            app:spinner_layout_mode="inner"
+            app:spinner_editable="true"
+            app:spinner_hint="defaultChoose"
+            app:spinner_defaultchoose="true"
+            app:spinner_item="@array/month" />
+
+        <lozn.spinner.EditSpinner
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="50dp"
             app:spinner_editable="false"
             app:spinner_hint="月份-弹出式编辑框"
             app:spinner_item="@array/month"
@@ -45,7 +80,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:minHeight="50dp"
-            app:spinner_icon="@drawable/down_arrow"
             app:spinner_editable="false"
             app:spinner_hint="月份可编辑编辑框"
             app:spinner_item="@array/month" />
@@ -75,7 +109,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:spinner_editable="false"
-        app:spinner_icon="@drawable/down_arrow"
         app:spinner_hint="月份-向上弹出下拉列表"
         app:spinner_item="@array/month"
         app:spinner_rebuild_Id="true" />

@@ -24,7 +24,7 @@ public class EditableEdittext extends TextInputEditText {
     }
 
 
-    public EditableEdittext(@NonNull Context context, boolean editable) {
+    public EditableEdittext(@NonNull Context context,boolean editable) {
         super(context);
 
     }
@@ -36,17 +36,16 @@ public class EditableEdittext extends TextInputEditText {
     public EditableEdittext(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
-
     @Override
     public boolean isInEditMode() {
         return editable;
     }
 
-    @Override
+  /*  @Override
     public void setText(CharSequence text, BufferType type) {
         super.setText(text,editable? BufferType.EDITABLE:BufferType.NORMAL);
     }
-
+*/
     @Nullable
     @Override
     public Editable getText() {
@@ -73,7 +72,7 @@ public class EditableEdittext extends TextInputEditText {
 
     @Override
     public boolean getFreezesText() {
-        return true;
+        return false;
     }
 
     /**
@@ -94,5 +93,9 @@ public class EditableEdittext extends TextInputEditText {
 //        editText.setInputType(InputType.TYPE_CLASS_TEXT);//来开启软键盘
     }
 
-    boolean editable = true;
+    boolean editable = getDefaultEditableValue();
+
+    protected boolean getDefaultEditableValue() {
+        return true;
+    }
 }

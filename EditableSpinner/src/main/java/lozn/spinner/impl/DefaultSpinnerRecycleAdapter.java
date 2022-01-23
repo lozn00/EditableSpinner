@@ -1,12 +1,17 @@
-package lozn.spinner;
+package lozn.spinner.impl;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
 import android.widget.TextView;
 
+import lozn.spinner.BaseViewHolderI;
+import lozn.spinner.base.ListViewRecycleAdapter;
+import lozn.spinner.R;
 
-public class MySpinnerRecycleAdapter<T>  extends ListViewRecycleAdapter<T, MySpinnerRecycleAdapter.GenericDataBindViewHolder> {
+
+public class DefaultSpinnerRecycleAdapter<T>  extends ListViewRecycleAdapter<T, DefaultSpinnerRecycleAdapter.GenericDataBindViewHolder> {
     @Override
     public GenericDataBindViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
         LayoutInflater from = LayoutInflater.from(viewGroup.getContext());
@@ -22,6 +27,12 @@ public class MySpinnerRecycleAdapter<T>  extends ListViewRecycleAdapter<T, MySpi
     public Object getItem(int position) {
         return super.getItem(position);
     }
+
+    @Override
+    public Filter getFilter() {
+        return null;
+    }
+
     public static class GenericDataBindViewHolder implements BaseViewHolderI {
 
         private final View rootview;

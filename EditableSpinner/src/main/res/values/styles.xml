@@ -1,2 +1,19 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
+    <style name="ThemeTextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.FilledBox">
+        <item name="boxStrokeWidth">1dp</item>
+<!--        <item name="hintTextAppearance">@style/hintTextAppearance</item>-->
+        <item name="boxStrokeWidthFocused">1dp</item>
+<!--        <item name="boxCollapsedPaddingTop">@dimen/boxcollapsedpaddingtop</item>-->
+<!--        <item name="boxStrokeColor">@color/textinput_box_stroke_color_selector_gray</item>-->
+<!--        <item name="android:textColorHint">@color/black</item>-->
+    </style>
+    <style name="ThemeTextInputLayoutDropdownMenu" parent="Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu">
+        <item name="boxStrokeWidth">1dp</item>
+<!--        <item name="hintTextAppearance">@style/hintTextAppearance</item>-->
+<!--        <item name="boxStrokeWidthFocused">1dp</item>-->
+<!--        <item name="boxCollapsedPaddingTop">@dimen/boxcollapsedpaddingtop</item>-->
+<!--        <item name="boxStrokeColor">@color/textinput_box_stroke_color_selector_gray</item>-->
+<!--        <item name="android:textColorHint">@color/black</item>-->
+    </style>
+
 </resources>

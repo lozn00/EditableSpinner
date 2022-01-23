@@ -3,7 +3,7 @@ package lozn.biz;
 import java.util.ArrayList;
 
 import lozn.spinner.EditSpinner;
-import lozn.spinner.MySpinnerRecycleAdapter;
+import lozn.spinner.impl.DefaultSpinnerRecycleAdapter;
 
 /**
  * Author:Lozn
@@ -12,8 +12,9 @@ import lozn.spinner.MySpinnerRecycleAdapter;
  * 9:09
  */
 public class BizUtil {
-    public static void genereateDefaultAdapter(EditSpinner editSpinner, CharSequence[] mentries) {
-        MySpinnerRecycleAdapter<CharSequence> adapter = new MySpinnerRecycleAdapter<>();
+    public static void genereateAndSetDefaultAdapter(EditSpinner editSpinner, CharSequence[] mentries) {
+        String []mentriesx=new String[]{"a2","a","f","bbc","12345"};
+        DefaultSpinnerRecycleAdapter<CharSequence> adapter = new DefaultSpinnerRecycleAdapter<>();
         ArrayList<CharSequence> data = new ArrayList<>();
         for (CharSequence sequence : mentries) {
             data.add(sequence);

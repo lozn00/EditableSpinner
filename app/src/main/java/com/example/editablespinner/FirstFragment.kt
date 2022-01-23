@@ -9,7 +9,9 @@ import android.widget.AdapterView
 import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import com.example.editablespinner.databinding.FragmentFirstBinding
-import lozn.spinner.OnItemLongClickListener
+import lozn.spinner.impl.AutoCompleteSpinnerAdapter
+import lozn.spinner.impl.DefaultSpinnerRecycleAdapter
+import java.util.ArrayList
 
 /**
  * A simple [Fragment] subclass as the default destination in the navigation.
@@ -34,6 +36,16 @@ class FirstFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val adapter = AutoCompleteSpinnerAdapter<CharSequence>()
+        val data = ArrayList<CharSequence>()
+        val mentriesx = arrayOf("a2", "a", "f", "bbc", "12345","ffcc")
+        mentriesx.set(0,mentriesx::class.java.simpleName+"_test");
+        for (sequence in mentriesx) {
+            data.add(sequence)
+        }
+        adapter.setData(data)
+        binding.editspinnerAutotip.setAdapter(adapter)
 
         binding.buttonFirst.setOnClickListener {
             findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
