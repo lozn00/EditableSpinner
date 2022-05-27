@@ -3,6 +3,7 @@ package lozn.spinner;
 import android.content.Context;
 import android.content.res.Resources;
 import android.util.AttributeSet;
+import android.widget.AdapterView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -75,7 +76,7 @@ public class EditInnerSpinner extends FixBugSpinner {
 
 //            boolean sameSelected = position == getSelectedItemPosition();
             if (sameSelected||(getMyselection()<0&&position>=0)) {//这种情况也应该通知，但是自带的是不会通知的。
-                OnItemSelectedListener onItemSelectedListener = getOnItemSelectedListener();
+                AdapterView.OnItemSelectedListener onItemSelectedListener = getOnItemSelectedListener();
                 if (onItemSelectedListener != null) {
                     onItemSelectedListener.onItemSelected(this, getSelectedView(), position, getSelectedItemId());
                 }
