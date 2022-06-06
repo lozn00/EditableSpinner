@@ -1,3 +1,4 @@
+package lozn.spinner;
 
 import static android.widget.AdapterView.INVALID_POSITION;
 import static android.widget.Spinner.MODE_DIALOG;
@@ -32,6 +33,9 @@ import android.widget.TextView;
 import androidx.annotation.IntDef;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.content.res.AppCompatResources;
+
+import com.google.android.material.textfield.TextInputLayout;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -40,6 +44,8 @@ import java.util.List;
 
 import lozn.spinner.EditInnerSpinner;
 import lozn.spinner.R;
+import lozn.spinner.base.ListViewRecycleAdapter;
+import lozn.spinner.impl.DefaultSpinnerRecycleAdapter;
 
 /**
  * Author:Lozn
@@ -131,7 +137,7 @@ public class EditSpinner extends LinearLayout {
         String hint_str = "";
         int gap = 0;
         imageView = new ImageView(context);
-        imageView.setId(pub.devrel.easypermissions.R.id.image);
+        imageView.setId(R.id.image);
         CharSequence[] mEntries = null;
 
         if (attrs != null) {
@@ -220,9 +226,10 @@ public class EditSpinner extends LinearLayout {
             _titleWrap.addView(imageView);
         }
         onItemSelectedListenerInner = new AdapterView.OnItemSelectedListener() {
+            @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Log.w("focus", editText.hasFocus() + ","+","+editText.isFocused()+","+editText.isAccessibilityFocused());
+                Log.w("focus", editText.hasFocus() + ","+","+editText.isFocused());
                 if (position < 0) {//|| appCoSpinner.getMyselection() < 0) { //无法做到默认为空。没办法
                     if (!TextUtils.isEmpty(editText.getText().toString())) {
                         setTextDisableNotify("");
@@ -264,7 +271,7 @@ public class EditSpinner extends LinearLayout {
 //        editText.setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, null, null);
         if (mEntries != null && mEntries.length > 0) {
             if (!isInEditMode()) {
-                MySpinnerAdapter<CharSequence, SimpleSpinnerItemBinding> adapter = new MySpinnerAdapter<>();
+                DefaultSpinnerRecycleAdapter<CharSequence> adapter = new DefaultSpinnerRecycleAdapter<>();
                 ArrayList<CharSequence> data = new ArrayList<>();
                 for (CharSequence mEntry : mEntries) {
                     data.add(mEntry);
@@ -382,10 +389,10 @@ public class EditSpinner extends LinearLayout {
             AutoCompleteTextView autoCompleteTextView = (AutoCompleteTextView) editText;
             autoCompleteTextView.setOnItemClickListener((parent, view, position, id) -> {
                 SpinnerAdapter adapter = appCoSpinner.getAdapter();
-                if (adapter instanceof DefaultListViewAdapter) { //创建一个新的adapter,是为了解决重复触发问题，如果不创建一个新的，autocompletetextview继续用之前的，输入2个之后会自动触发select 而且触发两次，实际上不应该进行触发只需要进行提示。
+                if (adapter instanceof DefaultSpinnerRecycleAdapter) { //创建一个新的adapter,是为了解决重复触发问题，如果不创建一个新的，autocompletetextview继续用之前的，输入2个之后会自动触发select 而且触发两次，实际上不应该进行触发只需要进行提示。
 
-                    DefaultListViewAdapter editTextAdapter = (DefaultListViewAdapter) ((AutoCompleteTextView) editText).getAdapter();
-                    DefaultListViewAdapter<?, ?> defaultListViewAdapter = (DefaultListViewAdapter<?, ?>) adapter;
+                    DefaultSpinnerRecycleAdapter editTextAdapter = (DefaultSpinnerRecycleAdapter) ((AutoCompleteTextView) editText).getAdapter();
+                    DefaultSpinnerRecycleAdapter defaultListViewAdapter = (DefaultSpinnerRecycleAdapter) adapter;
                     defaultListViewAdapter.setData(editTextAdapter.getData());
                     defaultListViewAdapter.notifyDataSetChanged();
                 } else {
@@ -650,7 +657,7 @@ public class EditSpinner extends LinearLayout {
         if (isInEditMode()) {
             return;
         }
-        MySpinnerAdapter<Object, SimpleSpinnerItemBinding> adapter = new MySpinnerAdapter<>();
+        DefaultSpinnerRecycleAdapter adapter = new DefaultSpinnerRecycleAdapter<>();
         adapter.setData(data);
         setAdapter(adapter);
     }
@@ -832,9 +839,9 @@ public class EditSpinner extends LinearLayout {
             AutoCompleteTextView autoCompleteTextView = (AutoCompleteTextView) editText;
             if (adapter instanceof ListAdapter && adapter instanceof Filterable) {
                 if (!isInEditMode()) {
-                    MySpinnerAdapter mySpinnerAdapter = (MySpinnerAdapter) adapter;
+                    DefaultSpinnerRecycleAdapter mySpinnerAdapter = (DefaultSpinnerRecycleAdapter) adapter;
 
-                    autoCompleteTextView.setAdapter(new MySpinnerAdapter<>().setData(mySpinnerAdapter.getData()));  // 设置适配器
+                    autoCompleteTextView.setAdapter(new DefaultSpinnerRecycleAdapter<>().setData(mySpinnerAdapter.getData()));  // 设置适配器
 
                 }
 

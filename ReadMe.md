@@ -1,4 +1,4 @@
-#添加依赖
+#AddDependent
 
 ```groovy
 	allprojects {
@@ -51,7 +51,7 @@ Step 2. Add the dependency
 ```
 
 #功能
-```spinner_mode``` 支持dialog dropdown 默认dropdown 当这个下拉列表在底部的时候会网上展开
+```spinner_mode``` 支持dialog dropdown 默认dropdown 当这个下拉列表在底部的时候会向上上展开
 ```spinner_item``` 设置默认item条目 ，这样对于纯字符的可以不需要用代码设置
 ```spinner_editable``` 控制是否可编辑
 ```spinner_rebuild_Id``` 如果viewpager fragment大量使用，则会导致hint重复问题，这是fragment的回收机制问题,给每一个分配不同id就可以解决这个问题
@@ -63,9 +63,9 @@ arrays.xml
 <item>3333</item>
 <item>5555</item>
 </string-array>
-#自动提示
+#自动提示与搜索
 
-必须开启可编辑功能方可开启自动提示
+必须开启可编辑功能方可开启自动提示,自动提示可以通过监听回车行为或者失去焦点时进行检测是否匹配。
 ``` 
         val mentriesx = arrayOf("a2", "a", "f", "bbc", "12345","ffcc")
         mentriesx.set(0,mentriesx::class.java.simpleName+"_test");
@@ -75,6 +75,7 @@ arrays.xml
         adapter.setData(data)
         binding.editspinnerAutotip.setAdapter(adapter)
 ```
+
 自动提示的实现原理是使用了MaterialAutoCompleteTextView spinner弹出式内部维护了Spinner,   demo默认和spinner点击的view公用同一个adapter,不管输入什么都会提示，只是匹配的会弄到第一项， spinner箭头点开后数据也是一样的。
 ![img.png](img.png)
 # 自定义布局
@@ -195,6 +196,43 @@ EditInnerSpinner 集成类解决android 10的bug无条目时卡死问题。
       
       
       
+
+
+```
+
+# otherCode
+
+```
+
+
+//简单的设置监听回调
+        binding.editspinner.setOnValueChangeListener(object :
+            EditSpinner.SimpleOnValueChangeListener() {
+            override fun onLossFocusAndTextChange() {
+                
+            }
+        })
+        
+//监听更多编辑框行为回调
+        binding.editspinner.setOnValueChangeListener(object :
+            EditSpinner.OnValueChangeListener {
+            override  fun onLossFocus() {
+                
+                Log.w(TAG,"onLossFocus");
+            }//当失去焦点而且编辑框内容被用户手动修改时触发
+            override fun onLossFocusAndTextChange() {}
+            override  fun onTextAutoCompleteChoose(position: Int, id: Long) {}
+            override   fun onTextChanged(s: CharSequence?) {}
+            override fun onGainFocus(focusText: String?) {}
+            override   fun onItemSelectPostionChanged(position: Int, selectedItem: String?): Boolean {
+                return false
+            }
+            //可以根据actionId,event判断是否是回车，回车执行逻辑。
+            override   fun onEditorAction(v: TextView?, actionId: Int, event: KeyEvent?): Boolean {
+                return false
+            }
+        })
+
 
 
 ```

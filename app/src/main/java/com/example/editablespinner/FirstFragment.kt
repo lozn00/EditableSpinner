@@ -1,23 +1,26 @@
 package com.example.editablespinner
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.util.Log
+import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
+import android.widget.TextView
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.editablespinner.databinding.FragmentFirstBinding
+import lozn.spinner.EditSpinner
 import lozn.spinner.impl.AutoCompleteSpinnerAdapter
-import lozn.spinner.impl.DefaultSpinnerRecycleAdapter
-import java.util.ArrayList
 
 /**
  * A simple [Fragment] subclass as the default destination in the navigation.
  */
 class FirstFragment : Fragment() {
 
+    private val TAG: String?="EditSpinner"
     private var _binding: FragmentFirstBinding? = null
 
     // This property is only valid between onCreateView and
@@ -78,6 +81,36 @@ class FirstFragment : Fragment() {
             }
             override fun onNothingSelected(parent: AdapterView<*>?) {}
         })
+
+
+/*
+        binding.editspinner.setOnValueChangeListener(object :
+            EditSpinner.SimpleOnValueChangeListener() {
+            override fun onLossFocusAndTextChange() {
+
+            }
+        })
+
+ */
+        binding.editspinner.setOnValueChangeListener(object :
+            EditSpinner.OnValueChangeListener {
+            override  fun onLossFocus() {
+
+                Log.w(TAG,"onLossFocus");
+            }
+            override fun onLossFocusAndTextChange() {}
+            override  fun onTextAutoCompleteChoose(position: Int, id: Long) {}
+            override   fun onTextChanged(s: CharSequence?) {}
+            override fun onGainFocus(focusText: String?) {}
+            override   fun onItemSelectPostionChanged(position: Int, selectedItem: String?): Boolean {
+                return false
+            }
+
+            override   fun onEditorAction(v: TextView?, actionId: Int, event: KeyEvent?): Boolean {
+                return false
+            }
+        })
+
     }
 
     override fun onDestroyView() {

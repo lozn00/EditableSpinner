@@ -61,6 +61,8 @@ public abstract class ListViewRecycleAdapter<T, VH extends BaseViewHolderI> exte
 
     }
 
+
+
     public void setOnItemLongClickListener(OnItemLongClickListener onItemLongClickListener) {
         this.onItemLongClickListener = onItemLongClickListener;
     }
