@@ -7,6 +7,6 @@ dependencyResolutionManagement {
         jcenter() // Warning: this repository is going to shut down soon
     }
 }
-rootProject.name = "EditableSpinner"
+//rootProject.name = "EditableSpinner"
 include ':app'
-include ':EditableSpinner'
+include ':module'
